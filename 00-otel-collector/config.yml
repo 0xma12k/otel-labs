@@ -1,0 +1,39 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: ${env:OTEL_COLLECTOR_HOST}:${env:OTEL_COLLECTOR_PORT_GRPC}
+      http:
+        endpoint: ${env:OTEL_COLLECTOR_HOST}:${env:OTEL_COLLECTOR_PORT_HTTP}
+        cors:
+          allowed_origins:
+            - "http://*"
+            - "https://*"
+  hostmetrics:
+    collection_interval: 15s
+    scrapers:
+      cpu:
+        metrics:
+          system.cpu.utilization:
+            enabled: true
+      memory:
+
+processors:
+  attributes:
+    actions:
+      - key: region
+        action: insert
+        value: asia-southeast1
+
+exporters:
+  otlphttp/prometheus:
+    endpoint: ${env:OTEL_COLLECTOR_OTLP_PROMETHEUS_ENDPOINT}
+    tls:
+      insecure: true
+
+service:
+  pipelines:
+    metrics:
+      receivers: [otlp, hostmetrics]
+      processors: [attributes]
+      exporters: [otlphttp/prometheus]

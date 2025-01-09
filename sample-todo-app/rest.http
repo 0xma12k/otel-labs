@@ -1,0 +1,23 @@
+@host = localhost:3000
+@todoID = 67804eae8336f81bf43e5511
+### Get Todo
+GET http://{{host}}/todos HTTP/1.1
+content-type: application/json
+
+### Create Todo
+POST http://{{host}}/todos HTTP/1.1
+content-type: application/json
+
+{
+    "title": "sample todo",
+    "completed": false
+}
+
+### Update Todo
+PUT http://{{host}}/todos/{{todoID}} HTTP/1.1
+content-type: application/json
+
+{
+    "title": "TODO",
+    "completed": false
+}

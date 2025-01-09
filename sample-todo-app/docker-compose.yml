@@ -1,0 +1,22 @@
+services:
+  todo:
+    build:
+      context: todo
+      dockerfile: Dockerfile
+    container_name: todo
+    ports:
+      - "3000:3000"
+    restart: always
+    depends_on:
+      - mongodb
+      - notify
+  notify:
+    build:
+      context: notify
+      dockerfile: Dockerfile
+    container_name: notify
+    restart: always
+  mongodb:
+    image: mongo:7.0
+    container_name: mongodb
+    restart: always

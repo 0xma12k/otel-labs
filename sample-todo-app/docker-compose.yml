@@ -6,6 +6,7 @@ services:
     container_name: todo
     ports:
       - "3000:3000"
+      - "9464:9464"
     restart: always
     depends_on:
       - mongodb
@@ -16,7 +17,12 @@ services:
       dockerfile: Dockerfile
     container_name: notify
     restart: always
+    ports:
+      - "3001:3001"
+      - "9465:9465"
   mongodb:
     image: mongo:7.0
     container_name: mongodb
     restart: always
+    ports: 
+    - 27017:27017
